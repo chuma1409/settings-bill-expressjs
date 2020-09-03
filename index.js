@@ -13,6 +13,9 @@ moment().format();
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+app.engine('handlebars', exphbs({
+    layoutsDir: './views/layouts'
+}));
 
 app.use(express.static('public'));
 

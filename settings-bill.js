@@ -50,11 +50,14 @@ module.exports = function SettingsBill() {
 
         // loop through all the entries in the action list 
         for (let index = 0; index < actionList.length; index++) {
-            const action = actionList[index];
+            var list = actionList[index];
             // check this is the type we are doing the total for 
-            if (action.type === type) {
+           
+            if (list.type === type) {
+                console.log(list.type === "call");
                 // add the action to the list
-                filteredActions.push(action);
+                console.log(list + " action");
+                filteredActions.push(list);
             }
         }
 
@@ -89,12 +92,12 @@ module.exports = function SettingsBill() {
     }
 
     function totals() {
-        let smsTotal = getTotal('sms')
-        let callTotal = getTotal('call')
+        let smsTotal = getTotal('sms').toFixed(2)
+        let callTotal = getTotal('call').toFixed(2)
         return {
             smsTotal,
             callTotal,
-            grandTotal : grandTotal(),
+            grandTotal : grandTotal().toFixed(2),
             color: colorChange()
         }
     }

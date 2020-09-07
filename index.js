@@ -1,6 +1,5 @@
 const express = require('express');
 const exphbs  = require('express-handlebars');
-const { static } = require('express');
 const SettingsBill = require('./settings-bill')
 const bodyParser = require('body-parser')
 const moment = require('moment');
@@ -8,7 +7,7 @@ const moment = require('moment');
 
 const app = express();
 const settingsBill = SettingsBill();
-const recordedActions = settingsBill.actions();
+
 moment().format(); 
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -26,11 +25,10 @@ app.use(bodyParser.json())
 
 app.get('/', function(req, res){
     res.render('index', {
-        
         settings: settingsBill.getSettings(),
         totals: settingsBill.totals()
-    });
-})
+    })
+});
 app.post('/settings', function(req, res){
   
 
@@ -40,34 +38,33 @@ app.post('/settings', function(req, res){
         warningLevel: req.body.warningLevel,
         criticalLevel: req.body.criticalLevel
     })
-    // console.log(settingsBill.getSettings());
+  
    res.redirect('/');
-})
+});
 app.post('/action', function(req, res){
-    if (!settingsBill.hasReachedCriticalLevel()) {
     settingsBill.recordAction(req.body.actionType)
-    }
     res.redirect('/');
-
-})
+});
 app.get('/actions', function(req, res){
-    for (const key of recordedActions){
-        key.ago = moment(key.timestamp).fromNow() 
-        
+var action = settingsBill.actions()
+    for (let props of action){
+        props.ago = moment(props.timestamp).fromNow()  
       }
    res.render('actions', {
-       actions: recordedActions});
+       actions: action});
 })
 app.get('/actions/:actionType', function(req, res){
-    const actionType = req.params.actionsType;
-    if (!settingsBill.hasReachedCriticalLevel()) {
-        const actionList = settingsBill.actionsFor(actionType)
-     for (const key of actionList){
-          key.ago = moment(key.timestamp).fromNow() 
+    
+    var actionType = req.params.actionType;
+  console.log( req.params.actionsType);
+        var actionList = settingsBill.actionsFor(actionType)
+        // console.log( settingsBill.actionsFor(actionType));
+     for (let props of actionList){
+          props.ago = moment(props.timestamp).fromNow() 
         }
     res.render('actions', {
         actions: actionList});
-    }
+   
 })
 const PORT = process.env.PORT || 3011;
 

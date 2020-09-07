@@ -46,7 +46,7 @@
             <table>
               <tr>
                 <td>
-                  <a href="/actions/calls">Call total</a>
+                  <a href="/actions/call">Call total</a>
                 </td>
                 <td>R<span class="callTotalSettings">{{totals.callTotal}}</span> </td>
               </tr>
@@ -60,7 +60,7 @@
                 <td>
                   <a href="/actions">Total</a>
                 </td>
-                <td> R<span class= {{totals.color}}>{{totals.grandTotal}}</span> </td>
+                <td class="{{totals.color}}"> R<span class="totalSettings" >{{totals.grandTotal}}</span> </td>
               </tr>
             </table>
 
@@ -78,7 +78,7 @@
               <input class="u-full-width criticalLevelSetting" type="number" name="criticalLevel" placeholder="eg. 65.00" value="{{settings.criticalLevel}}">
               <button class="button-primary updateSettings" type="submit" name="button">Update settings</button>
             </form>
-          </div>s
+          </div>
         </div>
       </div>
     </div>

@@ -60,16 +60,15 @@ app.get('/actions', function(req, res){
 })
 app.get('/actions/:actionType', function(req, res){
     const actionType = req.params.actionsType;
-       const listOfActions = factoryFunction.getActions();
-    
-    for (action of listOfActions) {
-        action.prettyDate = moment(action.timestamp).fromNow();
+    if (!settingsBill.hasReachedCriticalLevel()) {
+        const actionList = settingsBill.actionsFor(actionType)
+     for (const key of actionList){
+          key.ago = moment(key.timestamp).fromNow() 
+        }
+    res.render('actions', {
+        actions: actionList});
     }
-    
-    res.render("list", {
-        actions : listOfActions
-    });
-});
+})
 const PORT = process.env.PORT || 3011;
 
 

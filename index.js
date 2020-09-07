@@ -63,7 +63,7 @@ app.get('/actions/:actionType', function(req, res){
        const listOfActions = factoryFunction.getActions();
     
     for (action of listOfActions) {
-        action.prettyDate = moment.fromNow(action.timestamp);
+        action.prettyDate = moment(action.timestamp).fromNow();
     }
     
     res.render("list", {

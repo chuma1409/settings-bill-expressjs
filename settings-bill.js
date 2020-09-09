@@ -27,18 +27,21 @@ module.exports = function SettingsBill() {
     function recordAction(action) {
 
         let cost = 0;
-        if (action === 'sms'){
-            cost = smsCost;
+        if (action) {
+            if (action === 'sms'){
+                cost = smsCost;
+            }
+            else if (action === 'call'){
+                cost = callCost;
+            }
+    
+            actionList.push({
+                type: action,
+                cost,
+                timestamp: new Date()
+            });
         }
-        else if (action === 'call'){
-            cost = callCost;
-        }
-
-        actionList.push({
-            type: action,
-            cost,
-            timestamp: new Date()
-        });
+        
     }
 
     function actions(){

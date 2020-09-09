@@ -42,8 +42,11 @@ app.post('/settings', function(req, res){
    res.redirect('/');
 });
 app.post('/action', function(req, res){
-    settingsBill.recordAction(req.body.actionType)
     res.redirect('/');
+
+    if (!settingsBill.hasReachedCriticalLevel()) {
+    settingsBill.recordAction(req.body.actionType)
+    }
 });
 app.get('/actions', function(req, res){
 var action = settingsBill.actions()
@@ -57,6 +60,7 @@ app.get('/actions/:actionType', function(req, res){
     
     var actionType = req.params.actionType;
   console.log( req.params.actionsType);
+
         var actionList = settingsBill.actionsFor(actionType)
         // console.log( settingsBill.actionsFor(actionType));
      for (let props of actionList){
@@ -64,7 +68,7 @@ app.get('/actions/:actionType', function(req, res){
         }
     res.render('actions', {
         actions: actionList});
-   
+    
 })
 const PORT = process.env.PORT || 3011;
 
